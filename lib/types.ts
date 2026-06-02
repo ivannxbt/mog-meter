@@ -6,6 +6,8 @@
 // Si cambias algo aquí, avisa al equipo: rompe el contrato para todos.
 //
 // Regla de oro: nadie inventa formas de datos por su cuenta. Todo pasa por aquí.
+//
+// Límites de plataforma (rate limit, techo de coste): ver lib/config.ts
 // =============================================================================
 
 // ----------------------------------------------------------------------------
