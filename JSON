@@ -1,0 +1,42 @@
+// lib/schema/evaluation-schema.ts
+export const evaluationSchema = {
+  name: "ImageEvaluation",
+  strict: true,
+  schema: {
+    type: "object",
+    properties: {
+      verdict: {
+        type: "string",
+        enum: ["SAFE", "UNSAFE", "LOW_SIGNAL"],
+        description: "Overall safety verdict for the submitted image."
+      },
+      confidence: {
+        type: "number",
+        description: "Model confidence in [0.0, 1.0]."
+      },
+      categories: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            label: { type: "string" },
+            triggered: { type: "boolean" },
+            severity: { type: "string", enum: ["none","low","medium","high"] }
+          },
+          required: ["label", "triggered", "severity"],
+          additionalProperties: false
+        }
+      },
+      reasoning: {
+        type: "string",
+        description: "Short justification (max 2 sentences) shown al usuario."
+      },
+      low_signal_reason: {
+        type: "string",
+        description: "Populated only when verdict=LOW_SIGNAL (e.g. image too dark, blurry)."
+      }
+    },
+    required: ["verdict", "confidence", "categories", "reasoning"],
+    additionalProperties: false
+  }
+};
