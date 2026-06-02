@@ -1,0 +1,12 @@
+# Normaliza fines de línea: el repo guarda LF, cada quien usa lo de su SO.
+# Evita "diffs fantasma" cuando el equipo mezcla Windows (CRLF) y Mac/Linux (LF).
+* text=auto eol=lf
+
+# Binarios: nunca tocar fines de línea.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
