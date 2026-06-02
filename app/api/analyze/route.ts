@@ -66,7 +66,7 @@ export async function POST(request: Request) {
       { text: MOG_SYSTEM_PROMPT },
       { inlineData: { mimeType: "image/jpeg", data: base64Image } },
       {
-        text: `Analiza este screenshot. Intensity: ${intensity}. Devuelve el JSON.`,
+        text: `Analiza este screenshot. Intensity: ${intensity}. Primero identifica cada participante con las reglas de UI (WhatsApp: nombre sobre el bloque y/o etiqueta inferior derecha de la burbuja). Luego devuelve el JSON.`,
       },
     ]);
     text = result.response.text();
