@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0c1222;
+  --foreground: #f4f0e6;
+  --mog-navy: #0c1222;
+  --mog-gold: #d4a853;
+  --mog-gold-dim: #a67c2e;
+  --mog-paper: #141c2e;
+  --mog-border: rgba(212, 168, 83, 0.25);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-mog-gold: var(--mog-gold);
+  --color-mog-paper: var(--mog-paper);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  background-image: radial-gradient(
+    ellipse 80% 50% at 50% -20%,
+    rgba(212, 168, 83, 0.08),
+    transparent
+  );
+}
+
+:focus-visible {
+  outline: 2px solid var(--mog-gold);
+  outline-offset: 2px;
+}
