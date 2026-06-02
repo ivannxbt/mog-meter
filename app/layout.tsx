@@ -1,26 +1,27 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Bebas_Neue, Inter } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const bebas = Bebas_Neue({
+  variable: "--font-display",
   subsets: ["latin"],
+  weight: "400",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-body",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://mogmeter.com"),
-  title: "MOG Meter — ¿Quién manda en tu grupo?",
+  title: "MOG Meter — Evaluador Macho Alfa",
   description:
-    "Sube el screenshot de tu chat grupal y descubre quién es el verdadero alfa.",
+    "Sube una captura de WhatsApp o Teams y descubre quién es el macho alfa del grupo. Entretenimiento, no evaluación real.",
   openGraph: {
-    title: "MOG Meter — ¿Quién manda en tu grupo?",
+    title: "MOG Meter — Evaluador Macho Alfa",
     description:
-      "Sube el screenshot de tu chat grupal y descubre quién es el verdadero alfa.",
+      "Who's the Male Of the Group? Find out. Regret nothing.",
     images: ["/og.png"],
   },
 };
@@ -33,9 +34,9 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${bebas.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col text-zinc-50" style={{ backgroundColor: "#0a0a0a" }}>
+      <body className="min-h-full flex flex-col font-[family-name:var(--font-body)]">
         {children}
       </body>
     </html>
