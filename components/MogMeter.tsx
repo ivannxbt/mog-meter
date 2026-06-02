@@ -266,7 +266,7 @@ export default function MogMeter() {
               <input
                 ref={fileInputRef}
                 type="file"
-                accept="image/jpeg,image/png,image/webp"
+                accept="image/*"
                 className="sr-only"
                 onChange={onInputChange}
               />
