@@ -6,6 +6,7 @@ export type MogRankingEntry = {
   name: string;
   score: number;
   reason: string;
+  archetype?: string;
 };
 
 export type MogResult = {

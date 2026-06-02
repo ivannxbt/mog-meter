@@ -1,5 +1,6 @@
 "use client";
 
+import PhotoRankingOverlay from "@/components/PhotoRankingOverlay";
 import {
   MOG_INTENSITIES,
   type MogIntensity,
@@ -138,6 +139,7 @@ export default function MogMeter() {
 
   useEffect(() => {
     if (phase !== "result" || !result || !confettiReady) return;
+    if (result.confidence < 40) return;
     const key = `${result.winner}-${result.score}`;
     if (confettiFiredFor.current === key) return;
     confettiFiredFor.current = key;
@@ -198,6 +200,12 @@ export default function MogMeter() {
   }
 
   const lowConfidence = result !== null && result.confidence < 40;
+  const positionFallback =
+    result !== null &&
+    (result.confidence <= 18 ||
+      /derecha|ficticio|sin chat|foto grupal/i.test(
+        `${result.limits ?? ""} ${result.winner}`,
+      ));
   const evidenceItems = (result?.evidence ?? []).slice(0, 3);
   const ranking = result?.ranking ?? [];
 
@@ -224,7 +232,11 @@ export default function MogMeter() {
                 MOG Meter 🏆
               </h1>
               <p className="mt-3 text-base text-zinc-400 sm:text-lg">
-                Sube el screenshot de tu grupo. Te decimos quién manda.
+                Sube el <strong className="text-zinc-200">screenshot del chat</strong>{" "}
+                (burbujas y nombres). No una foto del grupo.
+              </p>
+              <p className="mt-1 text-xs text-zinc-500">
+                Sin chat, ranking de broma por posición: derecha → izquierda.
               </p>
             </header>
 
@@ -260,7 +272,7 @@ export default function MogMeter() {
                 📸
               </span>
               <span className="text-center text-sm text-zinc-300">
-                Arrastra tu screenshot aquí o toca para elegir
+                Captura de WhatsApp, Teams, etc. — con mensajes visibles
               </span>
               <span className="text-xs text-zinc-500">JPG, PNG o WebP · máx. 8 MB</span>
               <input
@@ -340,6 +352,22 @@ export default function MogMeter() {
         {/* ——— STATE 3: result ——— */}
         {phase === "result" && result && (
           <div className="flex flex-col gap-6">
+            {preview && ranking.length > 0 && (
+              <div className="flex flex-col gap-2">
+                <p
+                  className="text-center text-xs font-bold uppercase tracking-wider"
+                  style={{ color: GOLD }}
+                >
+                  Ranking en la foto
+                </p>
+                <PhotoRankingOverlay
+                  src={preview}
+                  ranking={ranking}
+                  spatialRightToLeft={positionFallback}
+                />
+              </div>
+            )}
+
             <section
               className="flex flex-col gap-5 rounded-2xl border p-5 sm:p-6"
               style={{
@@ -355,7 +383,21 @@ export default function MogMeter() {
                 Veredicto oficial
               </p>
 
-              {lowConfidence && (
+              {positionFallback && (
+                <div
+                  className="rounded-lg px-3 py-2 text-center text-sm text-zinc-300"
+                  style={{
+                    border: "1px solid rgba(245, 158, 11, 0.35)",
+                    backgroundColor: "rgba(245, 158, 11, 0.08)",
+                  }}
+                >
+                  📷 Modo foto grupal: ranking por posición (derecha →
+                  izquierda). Para el MOG real del chat, sube el screenshot con
+                  mensajes.
+                </div>
+              )}
+
+              {lowConfidence && !positionFallback && (
                 <div
                   className="rounded-lg px-3 py-2 text-center text-sm"
                   style={{
@@ -420,7 +462,7 @@ export default function MogMeter() {
                 </div>
               )}
 
-              {ranking.length > 0 && (
+              {ranking.length > 0 && !positionFallback && (
                 <div>
                   <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-zinc-500">
                     Ranking
@@ -432,9 +474,16 @@ export default function MogMeter() {
                         className="rounded-lg border border-zinc-800 bg-zinc-900/50 px-3 py-2.5"
                       >
                         <div className="flex items-baseline justify-between gap-2">
-                          <span className="font-semibold text-zinc-100">
-                            {i + 1}. {entry.name}
-                          </span>
+                          <div className="flex min-w-0 flex-wrap items-center gap-2">
+                            <span className="font-semibold text-zinc-100">
+                              {i + 1}. {entry.name}
+                            </span>
+                            {entry.archetype ? (
+                              <span className="rounded-full bg-amber-900 px-2 py-0.5 text-xs text-amber-300">
+                                {entry.archetype}
+                              </span>
+                            ) : null}
+                          </div>
                           <span
                             className="shrink-0 text-sm font-bold tabular-nums"
                             style={{ color: GOLD }}
