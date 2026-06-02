@@ -70,9 +70,9 @@ export async function POST(request: Request) {
     const prepared = await resizeImageToBase64(buffer);
     base64Image = prepared.base64;
   } catch (err) {
-    // sharp failed to decode/resize (corrupt or unsupported image data).
+    // sharp failed to decode/resize: bad/corrupt input, not a backend fault.
     console.error("[analyze] image preparation failed:", err);
-    return Response.json({ error: "LLM_ERROR" }, { status: 500 });
+    return Response.json({ error: "INVALID_IMAGE" }, { status: 400 });
   }
 
   let text: string;

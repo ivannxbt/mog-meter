@@ -34,6 +34,7 @@ const INTENSITY_LABELS: Record<MogIntensity, string> = {
 const API_ERROR_MESSAGES: Record<string, string> = {
   FILE_TOO_LARGE: "La imagen no puede superar 8 MB.",
   INVALID_TYPE: "Solo se permiten imágenes JPG, PNG o WebP.",
+  INVALID_IMAGE: "Esa imagen no se pudo leer. Prueba con otra captura (JPG, PNG o WebP).",
   LLM_ERROR: "No se pudo generar el veredicto. Inténtalo de nuevo.",
 };
 
